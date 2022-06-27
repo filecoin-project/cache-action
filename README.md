@@ -32,6 +32,9 @@ If you are using this inside a container, a POSIX-compliant `tar` needs to be in
 * `restore-keys` - An ordered list of keys to use for restoring stale cache if no cache hit occurred for key. Note
 `cache-hit` returns false in this case.
 
+### Environment Variables
+* `CACHE_SKIP_SAVE` - [optional] When set to `true`, any modifications made to the restored cache will not be persisted back at the end of the step.  This environment variable can be set at any time using `echo "CACHE_SKIP_SAVE=true" >> $GITHUB_ENV`
+
 ### Outputs
 
 * `cache-hit` - A boolean value to indicate an exact match was found for the key
@@ -58,6 +61,8 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Cache Primes
+      env:
+        CACHE_SKIP_SAVE: true
       id: cache-primes
       uses: actions/cache@v3
       with:
